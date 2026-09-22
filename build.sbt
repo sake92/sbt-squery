@@ -1,15 +1,17 @@
 ThisBuild / organization := "ba.sake"
-ThisBuild / version := "0.1.0-SNAPSHOT"
-ThisBuild / scalaVersion := "3.8.4"
 
 name := "sbt-squery"
 
 enablePlugins(SbtPlugin)
 
+description := "sbt 2 plugin for Squery"
+pluginCrossBuild / sbtVersion := "2.0.0"
+scriptedSbt := "2.0.9"
+
 Compile / scalacOptions += "-Wunused:all"
 
-scriptedLaunchOpts ++= Seq(
-  "-Xmx1024M",
+scriptedLaunchOpts := Seq(
+  "-Xmx1G",
   s"-Dplugin.version=${version.value}"
 )
 scriptedBufferLog := false
@@ -30,3 +32,4 @@ scmInfo := Some(
     connection = "scm:git:git@github.com:sake92/sbt-squery.git"
   )
 )
+versionScheme := Some("semver-spec")
