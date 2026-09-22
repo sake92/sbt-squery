@@ -1,0 +1,6 @@
+> squeryGenerate
+$ exists src/main/scala/example/models/ActorRow.scala
+$ exists src/main/scala/example/daos/ActorDao.scala
+$ absent src/main/scala/example/models/AuditLogRow.scala
+$ absent src/main/scala/example/daos/AuditLogDao.scala
+> compile
