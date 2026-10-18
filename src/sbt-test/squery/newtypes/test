@@ -1,0 +1,7 @@
+> squeryGenerate
+$ exists src/main/scala/example/models/ActorRow.scala
+$ exists src/main/scala/example/models/MovieRow.scala
+$ exists src/main/scala/example/daos/MovieDao.scala
+$ exec grep -q RefinedType src/main/scala/example/models/ActorRow.scala
+$ exec grep -q ActorRow.PK src/main/scala/example/models/MovieRow.scala
+> compile
