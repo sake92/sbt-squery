@@ -1,11 +1,11 @@
 import ba.sake.sbt.squery.SqueryPlugin.autoImport.*
 
-ThisBuild / scalaVersion := "3.8.4"
+ThisBuild / scalaVersion := "3.9.0"
 
 enablePlugins(ba.sake.sbt.squery.SqueryPlugin)
 
 libraryDependencies ++= Seq(
-  "ba.sake" %% "squery" % "0.12.0",
+  "ba.sake" %% "squery" % "0.13.0",
   "com.h2database" % "h2" % "2.3.232"
 )
 

@@ -21,6 +21,7 @@ object SqueryPlugin extends AutoPlugin:
     )
     val squeryIncludeTables = settingKey[Seq[String]]("Regexes of schema.table names to generate")
     val squeryExcludeTables = settingKey[Seq[String]]("Regexes of schema.table names to exclude")
+    val squeryNewtypes = settingKey[String]("Key newtypes: none or iron. Iron requires squery-iron.")
 
     val squeryTargetDir = settingKey[File]("Directory where Squery writes generated sources")
     val squeryVersion = settingKey[String]("Squery CLI version used for source generation")
@@ -43,8 +44,9 @@ object SqueryPlugin extends AutoPlugin:
     squeryTypeMappingRules := Seq.empty,
     squeryIncludeTables := Seq.empty,
     squeryExcludeTables := Seq.empty,
+    squeryNewtypes := "none",
     squeryTargetDir := (Compile / scalaSource).value,
-    squeryVersion := "0.12.0",
+    squeryVersion := "0.13.0",
     libraryDependencies ++= generatorDependencies(
       squeryVersion.value,
       squeryJdbcDeps.?.value.getOrElse(Seq.empty)
@@ -64,6 +66,7 @@ object SqueryPlugin extends AutoPlugin:
         typeMappingRules = squeryTypeMappingRules.value,
         includeTables = squeryIncludeTables.value,
         excludeTables = squeryExcludeTables.value,
+        newtypes = squeryNewtypes.value,
         log = streams.value.log
       )
     }
@@ -84,6 +87,7 @@ object SqueryPlugin extends AutoPlugin:
       typeMappingRules: Seq[String],
       includeTables: Seq[String],
       excludeTables: Seq[String],
+      newtypes: String,
       log: Logger
   ): Unit =
     val tableIncludes = if includeTables.isEmpty then Seq(".*") else includeTables
@@ -108,7 +112,8 @@ object SqueryPlugin extends AutoPlugin:
         ) ++
         repeatedArgs("--typeMappingRule", typeMappingRules) ++
         repeatedArgs("--includeTables", tableIncludes) ++
-        repeatedArgs("--excludeTables", excludeTables)
+        repeatedArgs("--excludeTables", excludeTables) ++
+        Seq("--newtypes", newtypes)
 
     IO.createDirectory(targetDir)
     log.info("Starting to generate Squery sources...")

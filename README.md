@@ -32,8 +32,9 @@ squerySchemaMappings := Seq("PUBLIC" -> "com.myapp.public")
 // squeryTypeMappingRules := Seq(".*_id|UUID|java.util.UUID")
 // squeryIncludeTables := Seq("PUBLIC\\.(actor|address)")
 // squeryExcludeTables := Seq("PUBLIC\\.address") // exclusions win
+// squeryNewtypes := "none" // or "iron"; requires the squery-iron dependency
 // squeryTargetDir := (Compile / scalaSource).value
-// squeryVersion := "0.12.0"
+// squeryVersion := "0.13.0"
 ```
 
 Generate sources with:
@@ -42,10 +43,14 @@ Generate sources with:
 sbt squeryGenerate
 ```
 
-By default, the plugin uses Squery `0.12.0` and writes sources to
+By default, the plugin uses Squery `0.13.0` and writes sources to
 `Compile / scalaSource` (`src/main/scala`). The Squery CLI does not bundle JDBC
 drivers, so add the driver for your database to `squeryJdbcDeps`.
 
 `squeryTypeMappingRules`, `squeryIncludeTables`, and `squeryExcludeTables` are
 ordered, repeatable CLI options. Table patterns match fully qualified
 `schema.table` names, and exclusions take precedence.
+
+`squeryNewtypes` accepts `none` (default) or `iron`. With `iron`, primary and
+foreign keys get distinct Iron types, and the application must depend on
+`squery-iron`. Referenced tables must be included so their key types resolve.
